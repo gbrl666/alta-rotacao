@@ -19,6 +19,8 @@ Isso aqui não é jornalismo, nem pretende ser imparcial. É opinião — a minh
 
 Cresci girando em torno de quatro nomes que, pra mim, seguram o teto do gênero: **Britney, Madonna, Lady Gaga e Kylie**. Não como pôster na parede — como caso de estudo. O que faz um gancho grudar, por que uma era envelhece melhor que a outra, quando o disco "fraco" era na verdade o mais à frente do tempo.
 
+Levo isso no corpo, inclusive: minha primeira tatuagem — feita na primeira vez que sentei na cadeira de um estúdio — diz *Beauty Is Where You Find It*. Quem é do meio sabe de onde vem a frase. Pra mim virou método: beleza está onde você decide procurar, inclusive no pop de que muita gente torceu o nariz.
+
 > Levar pop a sério não é sobre provar que é arte. É sobre não fingir que dá pra viver sem.
 
 ## O que você vai encontrar aqui
