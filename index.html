@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alta Rotação — pop, opinião e as divas que importam</title>
+  <meta name="description" content="Opinião sobre música pop: Britney, Madonna, Lady Gaga, Kylie e todo mundo que faz o refrão grudar.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="discoball-wrap" title="psiu…"><div class="discoball"></div><small>clique 3x</small></div>
+
+  <header class="masthead">
+    <div class="wrap masthead-top">
+      <span class="no-ar"><span class="bolinha"></span> No ar</span>
+      <span id="dataHoje"></span>
+      <a href="admin.html">Escrever ✎</a>
+    </div>
+    <div class="wrap">
+      <a href="index.html" class="logo">
+        <h1>Alta Rotação</h1>
+        <div class="tagline">Pop · Opinião · As divas que importam</div>
+      </a>
+      <nav class="divas-nav" id="menuDivas">
+        <a href="index.html" class="ativo">Tudo</a>
+        <a href="?diva=Britney%20Spears">Britney</a>
+        <a href="?diva=Madonna">Madonna</a>
+        <a href="?diva=Lady%20Gaga">Lady Gaga</a>
+        <a href="?diva=Kylie%20Minogue">Kylie</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap" id="conteudo"><!-- preenchido pelo JS --></main>
+
+  <footer class="rodape">
+    <div class="wrap">
+      <span>© <span id="ano"></span> Alta Rotação — escrito por Gabriel, ouvido no talo.</span>
+      <span><a href="admin.html">Área de escrita</a></span>
+      <span class="assinatura-pista">Get out on the dance floor.</span>
+    </div>
+  </footer>
+
+  <script src="posts.js"></script>
+  <script src="app.js"></script>
+  <script src="fx.js"></script>
+  <script>
+    document.getElementById("ano").textContent = new Date().getFullYear();
+    document.getElementById("dataHoje").textContent = dataBonita(
+      new Date().toISOString().slice(0, 10)
+    );
+
+    // filtro opcional por diva (?diva=...)
+    const filtroDiva = new URLSearchParams(location.search).get("diva");
+
+    // marca o item de menu ativo
+    document.querySelectorAll("#menuDivas a").forEach(a => {
+      const href = a.getAttribute("href");
+      const ativo = filtroDiva
+        ? href.includes(encodeURIComponent(filtroDiva))
+        : href === "index.html";
+      a.classList.toggle("ativo", ativo);
+    });
+
+    let posts = porData(carregarPosts());
+    if (filtroDiva) posts = posts.filter(p => p.diva === filtroDiva);
+
+    const alvo = document.getElementById("conteudo");
+
+    if (!posts.length) {
+      alvo.innerHTML = `<div class="vazio">
+        <p>Nenhum post ainda${filtroDiva ? " sobre " + escapar(filtroDiva) : ""}.</p>
+        <p><a href="admin.html">Escreva o primeiro →</a></p>
+      </div>`;
+    } else {
+      const [destaque, ...resto] = posts;
+
+      const cartao = (p) => `
+        <article class="card">
+          <a href="post.html?p=${encodeURIComponent(p.id)}">
+            <div class="capa">${p.capa || "♪"}</div>
+          </a>
+          <p class="chamada">${escapar(p.diva || "Pop")}</p>
+          <h3><a href="post.html?p=${encodeURIComponent(p.id)}">${escapar(p.titulo)}</a></h3>
+          <p class="dek">${escapar(p.dek || "")}</p>
+          <p class="meta"><span>${dataBonita(p.data)}</span></p>
+        </article>`;
+
+      alvo.innerHTML = `
+        <section class="lead">
+          <div>
+            <p class="chamada">Em destaque · ${escapar(destaque.diva || "Pop")}</p>
+            <h2><a href="post.html?p=${encodeURIComponent(destaque.id)}">${escapar(destaque.titulo)}</a></h2>
+            <p class="dek">${escapar(destaque.dek || "")}</p>
+            <p class="meta" style="margin-top:16px"><span>${dataBonita(destaque.data)}</span> · <span>por ${escapar(destaque.autor || "Gabriel")}</span></p>
+          </div>
+          <a href="post.html?p=${encodeURIComponent(destaque.id)}" class="capa" style="text-decoration:none">${destaque.capa || "♪"}</a>
+        </section>
+        ${resto.length ? `<section class="grade">${resto.map(cartao).join("")}</section>` : ""}
+      `;
+    }
+  </script>
+</body>
+</html>

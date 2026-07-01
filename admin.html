@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Escrever — Alta Rotação</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="admin">
+
+  <div class="admin-bar">
+    <div class="wrap">
+      <strong>✎ Alta Rotação · Painel</strong>
+      <div class="acoes">
+        <a href="index.html" class="btn fantasma" target="_blank">Ver o site</a>
+        <button class="btn fantasma" id="btnNovo">+ Novo post</button>
+        <button class="btn primario" id="btnPublicar">⬇ Publicar / Exportar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="aviso">
+      <strong>Como funciona:</strong> escreva aqui e clique em <em>Salvar</em> — fica guardado no seu navegador na hora.
+      Quando quiser deixar tudo <strong>no ar pra todo mundo ver</strong>, clique em
+      <em>Publicar / Exportar</em>: ele baixa um arquivo <code>posts.js</code>. Coloque esse arquivo na
+      pasta do site (por cima do antigo) e pronto, está publicado.
+    </div>
+
+    <div class="admin-grid">
+
+      <!-- Coluna 1: editor -->
+      <form class="editor" id="form" onsubmit="return false;">
+        <input type="hidden" id="f_id">
+
+        <label for="f_titulo">Título</label>
+        <input id="f_titulo" placeholder="Ex.: Por que 'Blackout' é o melhor disco da Britney">
+
+        <label for="f_dek">Linha de apoio (aquele resumo que aparece embaixo do título)</label>
+        <input id="f_dek" placeholder="Uma frase que dá vontade de clicar.">
+
+        <label for="f_diva">Diva / assunto</label>
+        <select id="f_diva">
+          <option>Britney Spears</option>
+          <option>Madonna</option>
+          <option>Lady Gaga</option>
+          <option>Kylie Minogue</option>
+          <option>Pop em geral</option>
+        </select>
+
+        <label for="f_capa">Emoji da capa (opcional)</label>
+        <input id="f_capa" maxlength="4" placeholder="💫 ✨ 🎤 🎭 ♪" style="max-width:120px">
+
+        <label for="f_data">Data</label>
+        <input id="f_data" type="date">
+
+        <label for="f_corpo">Texto do post</label>
+        <textarea id="f_corpo" placeholder="Escreva sua opinião aqui..."></textarea>
+        <p class="dica">
+          Formatação simples: <code>## Subtítulo</code> · <code>### Subtítulo menor</code> ·
+          <code>&gt; frase em destaque</code> · <code>**negrito**</code> · <code>*itálico*</code> ·
+          <code>[texto](https://link)</code>. Linha em branco = novo parágrafo.
+        </p>
+
+        <div style="margin-top:22px; display:flex; gap:8px; flex-wrap:wrap">
+          <button class="btn primario" id="btnSalvar">Salvar post</button>
+          <button class="btn" id="btnLimpar">Limpar</button>
+        </div>
+      </form>
+
+      <!-- Coluna 2: preview -->
+      <div class="preview">
+        <div class="rotulo">Prévia ao vivo</div>
+        <article class="artigo" style="padding:0">
+          <p class="chamada" id="p_diva"></p>
+          <h1 id="p_titulo" style="font-size:34px"></h1>
+          <p class="dek" id="p_dek"></p>
+          <div class="corpo" id="p_corpo" style="font-size:17px"></div>
+        </article>
+      </div>
+    </div>
+
+    <!-- Lista de posts existentes -->
+    <section class="lista-posts">
+      <h2>Seus posts</h2>
+      <div id="listaPosts"></div>
+    </section>
+
+  </div>
+
+  <script src="posts.js"></script>
+  <script src="app.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

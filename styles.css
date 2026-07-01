@@ -1,0 +1,431 @@
+/* ==========================================================================
+   ALTA ROTAÇÃO — folha de estilo
+   Estética: a pista depois da meia-noite. Convergência de The Fame Monster,
+   Confessions (on a Dance Floor + Tour), Blackout, Mayhem, Ray of Light e
+   Aphrodite — preto de clube, neon magenta→violeta, dourado de deusa e o
+   globo espelhado girando. Editorial de moda, não template.
+
+   Pra mudar as cores, mexa só nas variáveis aqui de cima.
+   ========================================================================== */
+
+:root {
+  /* TEMA CLARO (padrão) — papel editorial com o rosa como acento.
+     O "Modo Pista" (easter egg) troca estas variáveis e escurece tudo. */
+  --void:    #f4efe4;   /* papel quente */
+  --void-2:  #ece5d6;   /* painéis */
+  --void-3:  #e8e0cf;   /* cartões / base das capas */
+  --ink:     #181310;   /* quase-preto quente (texto) */
+  --ink-soft:#6d645a;   /* cinza quente */
+  --line:    rgba(24,19,16,.16);
+
+  --spot-op:  .5;       /* intensidade dos focos de luz ao fundo */
+  --grain-op: .03;      /* grão fotográfico */
+  --capa-1: rgba(255,46,126,.16);  /* blush rosa das capas */
+  --capa-2: rgba(139,77,255,.16);  /* blush violeta das capas */
+  --capa-glow: .45;     /* brilho de globo nas capas */
+  --link: var(--magenta);          /* cor dos links no corpo */
+
+  --magenta: #ff2e7e;   /* Confessions on a Dance Floor */
+  --violet:  #8b4dff;   /* Confessions Tour / Mayhem */
+  --gold:    #e7b24a;   /* Aphrodite / Ray of Light */
+  --ray:     #ff7a3d;   /* laranja borrado do Ray of Light */
+
+  --neon: linear-gradient(100deg, var(--magenta), var(--violet));
+  --neon-3: linear-gradient(100deg, var(--gold), var(--magenta), var(--violet));
+
+  --display: "Didot", "Bodoni 72", "Playfair Display", Georgia, serif;
+  --serif:   Georgia, "Times New Roman", serif;
+  --sans:    "Helvetica Neue", Arial, system-ui, sans-serif;
+
+  --max: 1120px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--void);
+  font-family: var(--serif);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Luzes da pista: focos fixos de cor atrás de tudo (o "spot" do globo).
+   No modo pista (easter egg) elas ganham vida. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -20vh -10vw;
+  z-index: -2;
+  background:
+    radial-gradient(38vw 38vw at 78% -6%, rgba(255,46,126,.20), transparent 60%),
+    radial-gradient(42vw 42vw at 12% 4%,  rgba(139,77,255,.18), transparent 62%),
+    radial-gradient(50vw 40vw at 60% 108%, rgba(231,178,74,.10), transparent 60%);
+  opacity: var(--spot-op);
+  transition: opacity .6s ease;
+}
+/* Grão fotográfico sutil — dá textura de impressão editorial */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: var(--grain-op);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+a { color: inherit; }
+img { max-width: 100%; display: block; }
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 26px; }
+
+/* ---------- Globo espelhado (canto, decorativo + easter egg) ------------ */
+
+.discoball-wrap {
+  position: fixed;
+  top: 14px; right: 20px;
+  z-index: 40;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+.discoball {
+  width: 44px; height: 44px; margin: 0 auto;
+  border-radius: 50%;
+  position: relative;
+  background:
+    radial-gradient(circle at 32% 28%, #fff, rgba(255,255,255,.1) 42%, transparent 60%),
+    conic-gradient(from 210deg, var(--magenta), var(--violet), var(--gold), var(--magenta));
+  box-shadow: 0 0 22px rgba(255,46,126,.5), 0 0 40px rgba(139,77,255,.35);
+  animation: girar 14s linear infinite;
+}
+.discoball::after {                 /* facetas de espelho */
+  content: "";
+  position: absolute; inset: 0; border-radius: 50%;
+  background-image:
+    linear-gradient(rgba(0,0,0,.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,.35) 1px, transparent 1px);
+  background-size: 7px 7px;
+  mix-blend-mode: overlay;
+}
+.discoball-wrap small {
+  display: block; margin-top: 5px;
+  font-family: var(--sans); font-size: 8px; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--ink-soft);
+  opacity: 0; transition: opacity .3s;
+}
+.discoball-wrap:hover small { opacity: 1; }
+@keyframes girar { to { transform: rotate(360deg); } }
+
+@media (max-width: 620px) { .discoball-wrap { top: 10px; right: 12px; } .discoball { width: 34px; height: 34px; } }
+
+/* ---------- Cabeçalho / masthead ---------------------------------------- */
+
+.masthead { border-bottom: 1px solid var(--line); }
+.masthead-top {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; padding: 12px 0; padding-right: 90px;
+  font-family: var(--sans); font-size: 11px; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--ink-soft);
+  border-bottom: 1px solid var(--line);
+}
+.masthead-top a { text-decoration: none; }
+.masthead-top a:hover { color: var(--magenta); }
+
+/* indicador "NO AR" piscando — piscadela pro nome (rádio) */
+.no-ar { display: inline-flex; align-items: center; gap: 7px; color: var(--ink); }
+.no-ar .bolinha {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--magenta);
+  box-shadow: 0 0 10px var(--magenta); animation: pulsar 1.6s ease-in-out infinite;
+}
+@keyframes pulsar { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
+
+.logo { text-align: center; padding: 30px 0 14px; text-decoration: none; display: block; }
+.logo h1 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(44px, 11vw, 116px);
+  font-weight: 500;
+  letter-spacing: .01em;
+  line-height: .92;
+  text-transform: uppercase;
+  color: var(--ink);
+  -webkit-text-fill-color: var(--ink);
+}
+.logo:hover h1 {
+  background: var(--neon-3);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.logo .tagline {
+  font-family: var(--sans); font-size: 11px; letter-spacing: .34em;
+  text-transform: uppercase; color: var(--ink-soft);
+  margin-top: 16px; min-height: 14px;
+  transition: opacity .4s;
+}
+
+/* menu de divas */
+.divas-nav {
+  display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;
+  padding: 8px 0 18px;
+  font-family: var(--sans); font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+}
+.divas-nav a {
+  text-decoration: none; padding: 7px 16px; border-radius: 999px;
+  color: var(--ink-soft); border: 1px solid transparent; transition: all .18s;
+}
+.divas-nav a:hover { color: var(--ink); border-color: var(--line); }
+.divas-nav a.ativo {
+  color: #fff; border-color: transparent;
+  background: var(--neon); box-shadow: 0 0 18px rgba(255,46,126,.4);
+}
+
+/* ---------- Rótulos editoriais ------------------------------------------ */
+
+.chamada {
+  font-family: var(--sans); font-size: 11px; letter-spacing: .2em;
+  text-transform: uppercase; font-weight: 700; margin: 0 0 8px;
+  background: var(--neon); -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; width: fit-content;
+}
+.meta {
+  font-family: var(--sans); font-size: 11px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-soft);
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+}
+
+/* ---------- Capas (globo/gradiente no lugar de imagem) ------------------ */
+
+.capa {
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 6px; border: 1px solid var(--line);
+  background:
+    radial-gradient(120% 90% at 20% 10%, var(--capa-1), transparent 55%),
+    radial-gradient(120% 90% at 85% 90%, var(--capa-2), transparent 55%),
+    var(--void-3);
+  font-size: 64px; text-decoration: none;
+  transition: transform .4s ease;
+}
+.capa::before {                    /* brilho de globo espelhado */
+  content: ""; position: absolute; inset: 0;
+  background-image:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,.16), transparent 9%),
+    radial-gradient(circle at 70% 55%, rgba(255,255,255,.10), transparent 8%),
+    radial-gradient(circle at 45% 80%, rgba(255,255,255,.08), transparent 7%);
+  opacity: var(--capa-glow);
+}
+.capa::after {                     /* espelho rachado (Mayhem) — só no hover */
+  content: ""; position: absolute; inset: 0; opacity: 0; transition: opacity .4s;
+  background:
+    linear-gradient(35deg, transparent 48%, rgba(255,255,255,.5) 49%, transparent 50%),
+    linear-gradient(-20deg, transparent 62%, rgba(255,255,255,.35) 63%, transparent 64%),
+    linear-gradient(75deg, transparent 30%, rgba(255,255,255,.3) 31%, transparent 32%);
+}
+.capa:hover::after { opacity: 1; }
+.card a:hover .capa, .lead .capa:hover { transform: scale(1.015); }
+
+/* ---------- Home: destaque + grade ------------------------------------- */
+
+/* Matéria de destaque = bloco escuro de clube flutuando no papel.
+   É sempre escuro, de propósito — é o aceno à pista sem afogar a leitura. */
+.lead {
+  display: grid; grid-template-columns: 1.05fr .95fr; gap: 46px;
+  align-items: center; margin: 30px 0 8px; padding: clamp(28px, 4vw, 48px);
+  background: #141019; border: 1px solid rgba(244,238,251,.14);
+  border-radius: 18px; box-shadow: 0 20px 60px rgba(11,9,16,.16), 0 0 70px rgba(255,46,126,.12);
+}
+.lead .capa {
+  aspect-ratio: 4/3; font-size: 96px;
+  --capa-1: rgba(255,46,126,.35); --capa-2: rgba(139,77,255,.40); --capa-glow: .8;
+  background:
+    radial-gradient(120% 90% at 20% 10%, var(--capa-1), transparent 55%),
+    radial-gradient(120% 90% at 85% 90%, var(--capa-2), transparent 55%),
+    #1e1729;
+  border-color: rgba(244,238,251,.14);
+}
+.lead h2 {
+  font-family: var(--display); font-weight: 500;
+  font-size: clamp(32px, 5.4vw, 60px); line-height: 1.02;
+  margin: 8px 0 16px; letter-spacing: .005em;
+}
+.lead h2 a { text-decoration: none; color: #f4eefb; }
+.lead h2 a:hover { color: var(--magenta); }
+.lead .dek { font-size: 21px; color: #b3aabf; font-family: var(--serif); }
+.lead .meta { color: #b3aabf; }
+
+.grade { display: grid; grid-template-columns: repeat(3, 1fr); gap: 46px 36px; padding: 50px 0 70px; }
+.card .capa { aspect-ratio: 3/2; font-size: 54px; margin-bottom: 16px; }
+.card h3 {
+  font-family: var(--display); font-weight: 500;
+  font-size: 25px; line-height: 1.14; margin: 10px 0 8px; letter-spacing: .005em;
+}
+.card h3 a { text-decoration: none; }
+.card h3 a:hover { color: var(--magenta); }
+.card .dek { color: var(--ink-soft); font-size: 16px; margin: 0 0 12px; }
+
+/* ---------- Página do post --------------------------------------------- */
+
+.artigo { max-width: 730px; margin: 0 auto; padding: 46px 0 70px; }
+.artigo .voltar {
+  font-family: var(--sans); font-size: 12px; letter-spacing: .12em;
+  text-transform: uppercase; text-decoration: none; color: var(--ink-soft);
+}
+.artigo .voltar:hover { color: var(--magenta); }
+.artigo h1 {
+  font-family: var(--display); font-weight: 500;
+  font-size: clamp(34px, 6.4vw, 62px); line-height: 1.03;
+  letter-spacing: .005em; margin: 20px 0 18px;
+}
+.artigo .dek {
+  font-size: 23px; color: var(--ink-soft); font-family: var(--serif);
+  border-left: 2px solid var(--magenta); padding-left: 18px; margin: 0 0 26px;
+}
+.artigo .assinatura {
+  font-family: var(--sans); font-size: 13px; letter-spacing: .04em; color: var(--ink-soft);
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  padding: 13px 0; margin: 0 0 40px; display: flex; gap: 16px; flex-wrap: wrap;
+}
+.corpo { font-size: 20px; }
+.corpo p { margin: 0 0 26px; }
+.corpo h2 { font-family: var(--display); font-weight: 500; font-size: 32px; margin: 44px 0 14px; }
+.corpo h3 { font-family: var(--display); font-weight: 500; font-size: 25px; margin: 34px 0 10px; }
+.corpo blockquote {
+  margin: 36px 0; padding: 8px 0 8px 24px; border-left: 3px solid;
+  border-image: var(--neon) 1;
+  font-family: var(--display); font-size: 29px; line-height: 1.28; font-style: italic;
+  color: var(--ink);
+}
+.corpo a { color: var(--link); text-underline-offset: 3px; }
+
+/* ---------- Rodapé ------------------------------------------------------ */
+
+.rodape {
+  border-top: 1px solid var(--line); margin-top: 44px; padding: 36px 0 70px;
+  font-family: var(--sans); font-size: 13px; color: var(--ink-soft);
+}
+.rodape .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 18px; }
+.rodape a { color: var(--ink); }
+.rodape .assinatura-pista {
+  width: 100%; text-align: center; font-family: var(--display); font-style: italic;
+  font-size: 15px; color: var(--ink-soft); letter-spacing: .02em;
+}
+
+.vazio { text-align: center; padding: 90px 20px; color: var(--ink-soft); font-family: var(--sans); }
+.vazio a { color: var(--magenta); }
+
+/* ---------- Modo Pista (easter egg) ------------------------------------- */
+
+/* MODO PISTA (easter egg): apaga as luzes e o site inteiro vira clube. */
+body.modo-pista {
+  --void: #0b0910; --void-2: #16111f; --void-3: #1e1729;
+  --ink: #f4eefb; --ink-soft: #a99fb8; --line: rgba(244,238,251,.14);
+  --spot-op: 1; --grain-op: .05;
+  --capa-1: rgba(255,46,126,.35); --capa-2: rgba(139,77,255,.40); --capa-glow: .8;
+  --link: var(--gold);
+}
+body.modo-pista::before { opacity: 1; animation: respirarLuz 5s ease-in-out infinite; }
+body.modo-pista .discoball { animation-duration: 2.2s; }
+body.modo-pista .logo h1 {
+  background: var(--neon-3); background-size: 300% 100%;
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  animation: deslizarNeon 4s linear infinite;
+}
+@keyframes respirarLuz { 0%,100% { filter: saturate(1) brightness(1); } 50% { filter: saturate(1.5) brightness(1.25); } }
+@keyframes deslizarNeon { to { background-position: 300% 0; } }
+
+/* coraçãozinho "Padam" que sobe na tela (easter egg) */
+.padam {
+  position: fixed; bottom: 40px; font-size: 26px; z-index: 60; pointer-events: none;
+  animation: subir 2.6s ease-out forwards;
+}
+@keyframes subir {
+  0%   { transform: translateY(0) scale(.6); opacity: 0; }
+  15%  { opacity: 1; }
+  100% { transform: translateY(-70vh) scale(1.2); opacity: 0; }
+}
+
+/* ---------- Responsivo -------------------------------------------------- */
+
+@media (max-width: 860px) {
+  .lead { grid-template-columns: 1fr; gap: 26px; padding: 36px 0; }
+  .lead .capa { order: -1; }
+  .grade { grid-template-columns: 1fr 1fr; gap: 36px 26px; }
+}
+@media (max-width: 560px) {
+  .grade { grid-template-columns: 1fr; }
+  .corpo { font-size: 18px; }
+  .masthead-top { font-size: 10px; letter-spacing: .1em; padding-right: 48px; }
+}
+
+/* ==========================================================================
+   PAINEL DE ADMIN (admin.html) — mesma pista, modo bastidor
+   ========================================================================== */
+
+.admin { font-family: var(--sans); }
+
+/* Barra de topo = bastidor escuro, pra separar do espaço de escrita claro. */
+.admin-bar { background: #141019; padding: 15px 0; position: sticky; top: 0; z-index: 30; }
+.admin-bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.admin-bar strong { letter-spacing: .12em; text-transform: uppercase; font-size: 14px; color: #f4eefb; }
+.admin-bar .acoes { display: flex; gap: 8px; flex-wrap: wrap; }
+.admin-bar .btn.fantasma { color: #f4eefb; border-color: rgba(244,238,251,.28); }
+.admin-bar .btn.fantasma:hover { background: rgba(244,238,251,.12); border-color: rgba(244,238,251,.55); }
+
+.btn {
+  font-family: var(--sans); font-size: 13px; font-weight: 600; letter-spacing: .03em;
+  padding: 9px 16px; border-radius: 8px; border: 1px solid rgba(24,19,16,.18);
+  background: #fff; color: var(--ink); cursor: pointer; text-decoration: none; display: inline-block;
+}
+.btn:hover { border-color: var(--ink); }
+.btn.primario { background: var(--neon); border-color: transparent; color: #fff; box-shadow: 0 0 16px rgba(255,46,126,.35); }
+.btn.primario:hover { filter: brightness(1.06); }
+.btn.fantasma { background: transparent; }
+.btn.perigo { border-color: rgba(255,90,120,.5); color: #ff8098; background: transparent; }
+.btn.perigo:hover { background: rgba(255,46,126,.12); }
+
+.admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; padding: 30px 0 80px; align-items: start; }
+.editor label {
+  display: block; font-size: 12px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-soft); margin: 18px 0 6px;
+}
+.editor input, .editor select, .editor textarea {
+  width: 100%; font-family: var(--sans); font-size: 15px; padding: 12px 13px;
+  border: 1px solid rgba(24,19,16,.2); border-radius: 8px; background: #fff; color: var(--ink);
+}
+.editor input::placeholder, .editor textarea::placeholder { color: #a89f93; }
+.editor input:focus, .editor select:focus, .editor textarea:focus {
+  outline: none; border-color: var(--magenta); box-shadow: 0 0 0 3px rgba(255,46,126,.15);
+}
+.editor textarea { font-family: "SF Mono", Menlo, monospace; font-size: 14px; line-height: 1.6; min-height: 320px; resize: vertical; }
+.editor .dica { font-size: 12px; color: var(--ink-soft); margin-top: 6px; line-height: 1.6; }
+.editor code, .dica code { background: #fff; border: 1px solid rgba(24,19,16,.14); padding: 1px 6px; border-radius: 4px; color: var(--magenta); font-size: 12px; }
+
+.preview {
+  position: sticky; top: 84px; border: 1px solid rgba(24,19,16,.14); border-radius: 12px;
+  background: #fbf8f1; padding: 28px; max-height: 80vh; overflow: auto;
+  box-shadow: 0 12px 34px rgba(24,19,16,.06);
+}
+.preview .rotulo { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 14px; }
+
+.lista-posts { padding: 10px 0 90px; }
+.lista-posts h2 { font-family: var(--display); font-weight: 500; font-size: 30px; border-bottom: 1px solid var(--line); padding-bottom: 10px; }
+.item { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 15px 0; border-bottom: 1px solid var(--line); }
+.item .info h4 { margin: 0 0 4px; font-family: var(--display); font-weight: 500; font-size: 20px; }
+.item .info small { color: var(--ink-soft); }
+.item .item-acoes { display: flex; gap: 8px; flex-shrink: 0; }
+
+.aviso {
+  background: #fbf8f1; border: 1px solid rgba(24,19,16,.12); border-left: 3px solid var(--magenta);
+  border-radius: 8px; padding: 15px 18px; font-size: 14px; line-height: 1.7; margin: 22px 0; color: var(--ink-soft);
+}
+.aviso strong, .aviso em { color: var(--ink); }
+.aviso code { background: #fff; border: 1px solid rgba(24,19,16,.14); padding: 1px 6px; border-radius: 4px; color: var(--magenta); }
+
+@media (max-width: 860px) {
+  .admin-grid { grid-template-columns: 1fr; }
+  .preview { position: static; max-height: none; }
+}

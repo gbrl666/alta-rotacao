@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alta Rotação</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="discoball-wrap" title="psiu…"><div class="discoball"></div><small>clique 3x</small></div>
+
+  <header class="masthead">
+    <div class="wrap masthead-top">
+      <span class="no-ar"><span class="bolinha"></span> No ar</span>
+      <a href="admin.html">Escrever ✎</a>
+    </div>
+    <div class="wrap">
+      <a href="index.html" class="logo">
+        <h1>Alta Rotação</h1>
+        <div class="tagline">Pop · Opinião · As divas que importam</div>
+      </a>
+    </div>
+  </header>
+
+  <main class="wrap"><article class="artigo" id="artigo"></article></main>
+
+  <footer class="rodape">
+    <div class="wrap">
+      <span>© <span id="ano"></span> Alta Rotação</span>
+      <span><a href="index.html">← Voltar pra capa</a></span>
+    </div>
+  </footer>
+
+  <script src="posts.js"></script>
+  <script src="app.js"></script>
+  <script src="fx.js"></script>
+  <script>
+    document.getElementById("ano").textContent = new Date().getFullYear();
+    const post = acharPost(idDaUrl());
+    const alvo = document.getElementById("artigo");
+
+    if (!post) {
+      alvo.innerHTML = `<div class="vazio">
+        <p>Post não encontrado.</p><p><a href="index.html">← Voltar pra capa</a></p>
+      </div>`;
+    } else {
+      document.title = post.titulo + " — Alta Rotação";
+      alvo.innerHTML = `
+        <a href="index.html" class="voltar">← Alta Rotação</a>
+        <p class="chamada" style="margin-top:22px">${escapar(post.diva || "Pop")}</p>
+        <h1>${escapar(post.titulo)}</h1>
+        ${post.dek ? `<p class="dek">${escapar(post.dek)}</p>` : ""}
+        <p class="assinatura">
+          <span>Por <strong>${escapar(post.autor || "Gabriel")}</strong></span>
+          <span>${dataBonita(post.data)}</span>
+        </p>
+        <div class="corpo">${formatarCorpo(post.corpo || "")}</div>
+        <p style="margin-top:48px"><a href="index.html" class="voltar">← Ver mais posts</a></p>
+      `;
+    }
+  </script>
+</body>
+</html>
