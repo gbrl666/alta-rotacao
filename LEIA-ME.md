@@ -28,6 +28,10 @@ Pra escrever, abra o **`admin.html`** (ou clique em "Escrever ✎" no topo do si
 
 Linha em branco = novo parágrafo.
 
+## Editar a página "Sobre"
+
+Abra o arquivo **`sobre.js`** num editor de texto e mude o que está dentro de `texto: \`...\``. Vale a mesma formatação dos posts (`##`, `>`, `**negrito**`). Troque também o emoji do retrato no campo `foto`. Depois publique como sempre (dois cliques no `publicar.command`).
+
 ## Colocar o site no ar (quando quiser)
 
 Arraste a pasta inteira pra um serviço grátis como **Netlify Drop** (app.netlify.com/drop)
