@@ -301,6 +301,22 @@ img { max-width: 100%; display: block; }
 }
 .corpo a { color: var(--link); text-underline-offset: 3px; }
 
+/* ---------- Página Sobre ------------------------------------------------ */
+.sobre-topo { display: flex; gap: 26px; align-items: center; margin: 26px 0 30px; }
+.sobre-foto {
+  width: 118px; height: 118px; flex: 0 0 auto; border-radius: 50%;
+  font-size: 54px; --capa-glow: .8;
+  box-shadow: 0 0 30px rgba(255,46,126,.22);
+}
+.sobre-foto::after { display: none; }   /* sem o "espelho rachado" no retrato */
+@media (max-width: 560px) {
+  .sobre-topo { flex-direction: column; align-items: flex-start; gap: 18px; }
+}
+
+/* link "Sobre / Escrever" no topo */
+.mast-links a { text-decoration: none; }
+.mast-links a:hover { color: var(--magenta); }
+
 /* ---------- Rodapé ------------------------------------------------------ */
 
 .rodape {

@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Alta Rotação</title>
+  <title>Sobre — Alta Rotação</title>
+  <meta name="description" content="Quem escreve o Alta Rotação — diário público de opinião sobre música pop.">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -13,6 +14,7 @@
   <header class="masthead">
     <div class="wrap masthead-top">
       <span class="no-ar"><span class="bolinha"></span> No ar</span>
+      <span id="dataHoje"></span>
       <span class="mast-links"><a href="sobre.html">Sobre</a> · <a href="admin.html">Escrever ✎</a></span>
     </div>
     <div class="wrap">
@@ -23,7 +25,7 @@
     </div>
   </header>
 
-  <main class="wrap"><article class="artigo" id="artigo"></article></main>
+  <main class="wrap"><article class="artigo" id="sobre"></article></main>
 
   <footer class="rodape">
     <div class="wrap">
@@ -32,33 +34,26 @@
     </div>
   </footer>
 
-  <script src="posts.js"></script>
+  <script src="sobre.js"></script>
   <script src="app.js"></script>
   <script src="fx.js"></script>
   <script>
     document.getElementById("ano").textContent = new Date().getFullYear();
-    const post = acharPost(idDaUrl());
-    const alvo = document.getElementById("artigo");
+    document.getElementById("dataHoje").textContent = dataBonita(new Date().toISOString().slice(0, 10));
 
-    if (!post) {
-      alvo.innerHTML = `<div class="vazio">
-        <p>Post não encontrado.</p><p><a href="index.html">← Voltar pra capa</a></p>
-      </div>`;
-    } else {
-      document.title = post.titulo + " — Alta Rotação";
-      alvo.innerHTML = `
-        <a href="index.html" class="voltar">← Alta Rotação</a>
-        <p class="chamada" style="margin-top:22px">${escapar(post.diva || "Pop")}</p>
-        <h1>${escapar(post.titulo)}</h1>
-        ${post.dek ? `<p class="dek">${escapar(post.dek)}</p>` : ""}
-        <p class="assinatura">
-          <span>Por <strong>${escapar(post.autor || "Gabriel")}</strong></span>
-          <span>${dataBonita(post.data)}</span>
-        </p>
-        <div class="corpo">${formatarCorpo(post.corpo || "")}</div>
-        <p style="margin-top:48px"><a href="index.html" class="voltar">← Ver mais posts</a></p>
-      `;
-    }
+    const s = window.SOBRE || {};
+    document.getElementById("sobre").innerHTML = `
+      <a href="index.html" class="voltar">← Alta Rotação</a>
+      <div class="sobre-topo">
+        <div class="capa sobre-foto">${s.foto || "♪"}</div>
+        <div>
+          <p class="chamada" style="margin-bottom:6px">${escapar(s.chamada || "Quem escreve")}</p>
+          <h1 style="margin:0">${escapar(s.titulo || "Sobre")}</h1>
+        </div>
+      </div>
+      <div class="corpo">${formatarCorpo(s.texto || "")}</div>
+      <p style="margin-top:44px"><a href="index.html" class="voltar">← Ver os posts</a></p>
+    `;
   </script>
 </body>
 </html>
